@@ -27,10 +27,10 @@ passport.use(
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ googleId: profile.id }).then((existingUser) => {
         if (existingUser) {
-          //Already have a record with profile id
+          // we already have a record with the given profile ID
           done(null, existingUser);
         } else {
-          // no record
+          // we don't have a user record with this ID, make a new record!
           new User({ googleId: profile.id })
             .save()
             .then((user) => done(null, user));
@@ -39,6 +39,7 @@ passport.use(
     }
   )
 );
+
 // Facebook Login
 passport.use(
   new FacebookStrategy(
